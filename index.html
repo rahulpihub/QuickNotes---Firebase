@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QuickNotes App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>📝 QuickNotes</h1>
+
+  <div id="userInfo">Not logged in</div>
+
+  <!-- Login/Register form -->
+  <div id="loginForm">
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Register</button>
+  </div>
+
+  <!-- Note input and Add button (hidden when not logged in) -->
+  <input type="text" id="noteInput" placeholder="Type your note..." style="display:none" />
+  <button id="addNoteBtn" style="display:none">Add Note</button>
+  <button id="logoutBtn" style="display:none">Logout</button>
+
+  <!-- Notes List -->
+  <ul id="notesList"></ul>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
