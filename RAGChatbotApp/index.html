@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RAG Chatbot - Landing</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    button {
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to RAG Chatbot</h1>
+  <p>Please choose your role to proceed:</p>
+  <button id="adminBtn">Admin Login/Register</button>
+  <button id="userBtn">User Login/Register</button>
+
+  <script>
+    document.getElementById('adminBtn').addEventListener('click', () => {
+      window.location.href = 'admin/admin.html';
+    });
+
+    document.getElementById('userBtn').addEventListener('click', () => {
+      window.location.href = 'user/user.html';
+    });
+  </script>
+</body>
+</html>

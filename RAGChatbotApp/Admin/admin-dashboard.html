@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; }
+    input, button { padding: 10px; margin: 10px 0; width: 100%; }
+    #uploadStatus { font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Welcome, Admin!</h1>
+  <p>This is the admin dashboard. Here you can upload PDFs and manage the chatbot knowledge base.</p>
+
+  <!-- Logout Button -->
+  <button id="logoutBtn">Logout</button>
+
+  <hr />
+
+  <!-- PDF Upload UI -->
+  <h2>Upload PDF for Chatbot Knowledge Base</h2>
+  <input type="file" id="pdfUpload" accept="application/pdf" />
+  <button id="uploadBtn">Upload PDF</button>
+  <p id="uploadStatus"></p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+    import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-storage.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+    import { firebaseConfig } from "../config.js";
+
+    // Initialize Firebase app and services
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+    const db = getFirestore(app);
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      signOut(auth).then(() => {
+        alert('Logged out successfully!');
+        window.location.href = "admin.html"; // redirect to admin login page
+      }).catch((error) => {
+        alert('Error during logout: ' + error.message);
+      });
+    });
+
+    // PDF upload elements
+    const pdfUploadInput = document.getElementById('pdfUpload');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const uploadStatus = document.getElementById('uploadStatus');
+
+    uploadBtn.addEventListener('click', () => {
+      const file = pdfUploadInput.files[0];
+      if (!file) {
+        uploadStatus.style.color = 'red';
+        uploadStatus.textContent = 'Please select a PDF file to upload.';
+        return;
+      }
+
+      if (file.type !== 'application/pdf') {
+        uploadStatus.style.color = 'red';
+        uploadStatus.textContent = 'Only PDF files are allowed.';
+        return;
+      }
+
+      uploadBtn.disabled = true;
+      uploadStatus.style.color = 'black';
+      uploadStatus.textContent = 'Starting upload...';
+
+      // Create unique filename using timestamp + original name
+      const timestamp = Date.now();
+      const uniqueFileName = `pdfs/${timestamp}_${file.name}`;
+
+      // Create a storage reference
+      const storageRef = ref(storage, uniqueFileName);
+
+      // Start the file upload
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Monitor upload progress
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          uploadStatus.textContent = `Upload is ${progress.toFixed(0)}% done`;
+        }, 
+        (error) => {
+          uploadStatus.style.color = 'red';
+          uploadStatus.textContent = `Upload failed: ${error.message}`;
+          uploadBtn.disabled = false;
+        }, 
+        async () => {
+          try {
+            // Upload complete - get download URL
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            // Save metadata to Firestore
+            await addDoc(collection(db, 'pdfs'), {
+              name: file.name,
+              storagePath: uniqueFileName,
+              url: downloadURL,
+              uploadedAt: serverTimestamp()
+            });
+            uploadStatus.style.color = 'green';
+            uploadStatus.textContent = 'Upload successful!';
+            pdfUploadInput.value = ''; // reset file input
+          } catch (err) {
+            uploadStatus.style.color = 'red';
+            uploadStatus.textContent = 'Failed to save metadata: ' + err.message;
+          } finally {
+            uploadBtn.disabled = false;
+          }
+        }
+      );
+    });
+  </script>
+</body>
+</html>

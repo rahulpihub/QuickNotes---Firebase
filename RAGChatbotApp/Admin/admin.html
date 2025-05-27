@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Login/Register</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 400px; margin: 50px auto; }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; }
+    #message { color: red; }
+  </style>
+</head>
+<body>
+  <h2>Admin Login/Register</h2>
+
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+
+  <button id="registerBtn">Register</button>
+  <button id="loginBtn">Login</button>
+
+  <p id="message"></p>
+
+  <!-- Load the admin.js script -->
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
