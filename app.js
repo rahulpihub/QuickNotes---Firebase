@@ -1,5 +1,5 @@
 // app.js
-
+import { firebaseConfig } from './config.js';
 // Import Firebase modules from CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import {
@@ -12,15 +12,6 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyAq8qrXM0lw6c2OyUhV2oMpqpaLq1BA3SA",
-  authDomain: "quicknotesapp-8119c.firebaseapp.com",
-  projectId: "quicknotesapp-8119c",
-  storageBucket: "quicknotesapp-8119c.firebasestorage.app",
-  messagingSenderId: "287276885660",
-  appId: "1:287276885660:web:0e6d3560a9d989a5a0ef59"
-};
 
 // Initialize Firebase and Firestore
 const app = initializeApp(firebaseConfig);

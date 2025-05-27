@@ -1,48 +1,192 @@
-/* styles.css */
+/* Reset & base styles */
+* {
+  box-sizing: border-box;
+}
 
 body {
-  font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 0 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f7f9fc;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  align-items: flex-start;
+  padding-top: 40px;
+}
+
+.container {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 10px;
+  padding: 30px 30px 40px 30px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.1);
+}
+
+/* Header */
+h1 {
+  font-weight: 700;
+  font-size: 2.4rem;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #1a73e8; /* Google blue */
+}
+
+/* User info */
+#userInfo {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #555;
+  min-height: 24px;
+}
+
+/* Login form */
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
 }
 
 #loginForm input {
-  margin: 5px 5px 10px 0;
-  padding: 8px;
-  width: 200px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1.8px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
 }
 
-#addNoteBtn,
-#loginBtn,
-#registerBtn,
-#logoutBtn {
+#loginForm input:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 8px rgba(26, 115, 232, 0.3);
+}
+
+#loginForm button {
+  padding: 12px 15px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  padding: 8px 12px;
-  margin-left: 5px;
+  transition: background-color 0.3s ease;
 }
 
+#loginBtn {
+  background-color: #1a73e8;
+  color: white;
+}
+
+#loginBtn:hover {
+  background-color: #155ab6;
+}
+
+#registerBtn {
+  background-color: #34a853;
+  color: white;
+}
+
+#registerBtn:hover {
+  background-color: #2a7e3f;
+}
+
+/* Note input area */
+#noteInput {
+  width: 100%;
+  padding: 14px 15px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 1.8px solid #ccc;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  display: block;
+}
+
+#noteInput:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 8px rgba(26, 115, 232, 0.3);
+}
+
+/* Buttons */
+#addNoteBtn, #logoutBtn {
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+#addNoteBtn:hover, #logoutBtn:hover {
+  background-color: #155ab6;
+}
+
+/* Notes list */
 #notesList {
-  list-style: none;
+  list-style-type: none;
   padding-left: 0;
   margin-top: 20px;
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 #notesList li {
-  background: #f0f0f0;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 4px;
+  background-color: #f1f3f5;
+  padding: 14px 15px;
+  margin-bottom: 12px;
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 1.1rem;
+  word-break: break-word;
 }
 
 .delete-btn {
-  background: #e74c3c;
+  background-color: #e53e3e;
   border: none;
   color: white;
-  padding: 6px 10px;
-  border-radius: 4px;
+  padding: 7px 12px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #9b2c2c;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .container {
+    margin: 10px;
+    padding: 20px 15px 30px 15px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  #noteInput, #loginForm input {
+    font-size: 1rem;
+  }
+  
+  #addNoteBtn, #logoutBtn, #loginBtn, #registerBtn {
+    font-size: 1rem;
+    padding: 10px 15px;
+  }
+  
+  #notesList li {
+    font-size: 1rem;
+  }
 }
